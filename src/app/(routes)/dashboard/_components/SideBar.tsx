@@ -1,9 +1,14 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { menuItems } from "./menu";
+import { UserButton } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const SideBar = () => {
+  const pathName = usePathname();
+  useEffect(() => {}, [pathName]);
   return (
     <div className="h-screen p-5">
       <div className="flex items-center justify-center">
@@ -17,14 +22,26 @@ const SideBar = () => {
       </div>
       <div className="mt-20 gap-3">
         {menuItems.map((menu, index) => (
-          <h1
-            className="flex items-center gap-2 text-white font-medium
-             p-3 cursor-pointer rounded-md hover:text-amber-200 hover:bg-red-800"
-            key={index}>
-            <menu.icon /> {/* ✅ Render icon properly */}
-            {menu.name}
-          </h1>
+          <Link href={menu.path} key={index}>
+            {" "}
+            <h1
+              className={`flex items-center gap-2 text-white font-medium
+         p-3 cursor-pointer rounded-md hover:text-amber-200 hover:bg-red-800 ${
+           pathName === menu.path && "text-amber-200 bg-red-800 m-2"
+         }`}
+              key={index}>
+              <menu.icon /> {/* ✅ Render icon properly */}
+              {menu.name}
+            </h1>
+          </Link>
         ))}
+      </div>
+      <div
+        className="fixed bottom-15 flex p-5 
+      gap-2 text-white
+       items-center">
+        <UserButton />
+        Profile
       </div>
     </div>
   );

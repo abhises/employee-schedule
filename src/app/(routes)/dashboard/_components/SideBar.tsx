@@ -5,10 +5,12 @@ import { menuItems } from "./menu";
 import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useSideBar } from "../_context/SideBarContext";
 
 const SideBar = () => {
   const pathName = usePathname();
   useEffect(() => {}, [pathName]);
+  const { setIsOpen } = useSideBar();
   return (
     <div className="h-screen p-5">
       <div className="flex items-center justify-center">
@@ -29,7 +31,8 @@ const SideBar = () => {
          p-3 cursor-pointer rounded-md hover:text-amber-200 hover:bg-red-800 ${
            pathName === menu.path && "text-amber-200 bg-red-800 m-2"
          }`}
-              key={index}>
+              key={index}
+              onClick={() => setIsOpen(false)}>
               <menu.icon /> {/* ✅ Render icon properly */}
               {menu.name}
             </h1>

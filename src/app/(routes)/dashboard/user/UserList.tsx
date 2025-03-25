@@ -1,6 +1,7 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import React from "react";
 import moment from "moment";
+import { BookMinus } from "lucide-react";
 
 const UserList = async () => {
   const client = await clerkClient();
@@ -41,9 +42,7 @@ const UserList = async () => {
                       {moment(item.createdAt).startOf("day").fromNow()}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">
-                      {/* <button onClick={() => deleteUser(item.id)}>
-                        delete
-                      </button> */}
+                      <BookMinus className="cursor-pointer" />
                     </td>
                   </tr>
                 );

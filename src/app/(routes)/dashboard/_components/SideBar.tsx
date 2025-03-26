@@ -6,11 +6,15 @@ import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useSideBar } from "../_context/SideBarContext";
+// import { useUser } from "@clerk/nextjs";
 
 const SideBar = () => {
   const pathName = usePathname();
   useEffect(() => {}, [pathName]);
   const { setIsOpen } = useSideBar();
+  // const { user } = useUser();
+  // user?.publicMetadata?.role;
+
   return (
     <div className="h-screen p-5">
       <div className="flex items-center justify-center">

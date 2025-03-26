@@ -1,7 +1,7 @@
 import React from "react";
 import UserList from "./UserList";
 
-const UserPage = () => {
+const UserPage = async () => {
   return (
     <div className="m-4">
       <UserList />

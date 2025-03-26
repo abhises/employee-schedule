@@ -6,7 +6,8 @@ const isAdminRoute = createRouteMatcher(["/dashboard(.*)"]);
 export default clerkMiddleware(async (auth, req) => {
   if (
     isAdminRoute(req) &&
-    (await auth()).sessionClaims?.metadata?.role !== "admin"
+    (await auth()).sessionClaims?.metadata?.role !== "admin" &&
+    (await auth()).sessionClaims?.metadata?.role !== "member"
   ) {
     const url = new URL("/access-denied", req.url);
     return NextResponse.redirect(url);

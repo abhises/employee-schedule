@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { menuItems } from "./menu";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useSideBar } from "../_context/SideBarContext";
@@ -12,8 +12,12 @@ const SideBar = () => {
   const pathName = usePathname();
   useEffect(() => {}, [pathName]);
   const { setIsOpen } = useSideBar();
-  // const { user } = useUser();
-  // user?.publicMetadata?.role;
+  const { user } = useUser();
+  const role = user?.publicMetadata?.role;
+  const filteredMenu = menuItems.filter((menu) => {
+    if (menu.name === "User" && role !== "admin") return false; // Only admins can see "User"
+    return true;
+  });
 
   return (
     <div className="h-screen p-5">
@@ -27,7 +31,7 @@ const SideBar = () => {
         />
       </div>
       <div className="mt-20 gap-3">
-        {menuItems.map((menu, index) => (
+        {filteredMenu.map((menu, index) => (
           <Link href={menu.path} key={index}>
             {" "}
             <h1

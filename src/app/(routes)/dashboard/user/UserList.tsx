@@ -59,10 +59,11 @@ const UserList = () => {
 
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {isLoading ? (
-              <p className=" text-gray-500">Loading.....</p>
+              <tr className=" text-gray-500">
+                <td>Loading.....</td>
+              </tr>
             ) : (
               <>
-                {" "}
                 {user &&
                   user.map((item, index) => {
                     return (

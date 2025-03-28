@@ -4,6 +4,7 @@ import moment from "moment";
 import { BookMinus } from "lucide-react";
 import { fetchUser, deleteUser } from "./_actions";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface UserType {
   id: string;
@@ -31,6 +32,10 @@ const UserList = () => {
   const userDelete = async (userId: string) => {
     deleteUser(userId);
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    toast.error("The user has been deleted", {
+      position: "top-right",
+      autoClose: 3000, // Closes after 3 seconds
+    });
   };
 
   return (

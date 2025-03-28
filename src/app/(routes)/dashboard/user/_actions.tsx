@@ -12,20 +12,30 @@ export async function createUser(formData: FormData) {
   try {
     const client = await clerkClient();
     const email = formData.get("email") as string | null;
-
-    if (!email) {
-      throw new Error("Email is required");
+    const firstName = formData.get("firstName") as string | null;
+    const lastName = formData.get("lastName") as string | null;
+    const password = formData.get("password") as string | null;
+    // console.log("email", email);
+    // Validation
+    if (!email || !firstName || !lastName || !password) {
+      return Response.json(
+        { error: "All fields are required" },
+        { status: 400 }
+      );
     }
+
+    // Create user
     const user = await client.users.createUser({
-      emailAddress: [email],
-      firstName: formData.get("firstName") as string,
-      lastName: formData.get("lastName") as string,
-      password: formData.get("password") as string,
+      emailAddress: [email.trim()], // Ensure email is an array
+      firstName,
+      lastName,
+      password,
     });
-    return Response.json({ message: "User created", user });
+
+    return Response.json({ message: "User created successfully", user });
   } catch (error) {
-    console.log(error);
-    return Response.json({ error: "Error creating user" });
+    console.error("Clerk Error:", error);
+    return error;
   }
 }
 

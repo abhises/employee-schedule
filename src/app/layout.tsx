@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RefreshCcw } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

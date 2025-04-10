@@ -15,27 +15,67 @@ export async function createUser(formData: FormData) {
     const firstName = formData.get("firstName") as string | null;
     const lastName = formData.get("lastName") as string | null;
     const password = formData.get("password") as string | null;
-    // console.log("email", email);
+
     // Validation
-    if (!email || !firstName || !lastName || !password) {
-      return Response.json(
-        { error: "All fields are required" },
-        { status: 400 }
-      );
+    if (
+      !email?.trim() ||
+      !firstName?.trim() ||
+      !lastName?.trim() ||
+      !password?.trim()
+    ) {
+      return {
+        success: false,
+        error: "All fields are required",
+        status: 400,
+      };
+    }
+
+    if (!email.includes("@")) {
+      return {
+        success: false,
+        error: "Invalid email format",
+        status: 400,
+      };
+    }
+    if (password.length < 8) {
+      return {
+        success: false,
+        error: "Password must be at least 8 characters long",
+        status: 400,
+      };
     }
 
     // Create user
     const user = await client.users.createUser({
-      emailAddress: [email.trim()], // Ensure email is an array
+      emailAddress: [email.trim()],
       firstName,
       lastName,
       password,
     });
 
-    return Response.json({ message: "User created successfully", user });
-  } catch (error) {
-    console.error("Clerk Error:", error);
-    return error;
+    return {
+      success: true,
+      message: "User created successfully",
+      user: {
+        id: user.id,
+        email: user.emailAddresses?.[0]?.emailAddress ?? email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+    };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return {
+        error: "Failed to create user",
+        details: error.message,
+        status: 422,
+      };
+    }
+
+    return {
+      error: "Unknown error occurred",
+      status: 500,
+    };
   }
 }
 

@@ -88,3 +88,17 @@ export async function deleteUser(userId: string) {
     console.log(error);
   }
 }
+
+export async function updateRole(userId: string) {
+  try {
+    const client = await clerkClient();
+    const user = await client.users.updateUserMetadata(userId, {
+      publicMetadata: {
+        role: "member",
+      },
+    });
+    return { success: true, data: JSON.parse(JSON.stringify(user)) }; // Ensure plain object
+  } catch (error) {
+    console.log(error);
+  }
+}

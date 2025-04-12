@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { BookMinus } from "lucide-react";
-import { fetchUser, deleteUser } from "./_actions";
+import { BookMinus, Squirrel } from "lucide-react";
+import { fetchUser, deleteUser, updateRole } from "./_actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -11,8 +11,9 @@ interface UserType {
   firstName: string | null;
   lastName: string | null;
   emailAddresses: { emailAddress: string }[];
-  lastActiveAt: number | null; // Allow null
+  lastActiveAt: number | null; // Alloupw null
   createdAt: number;
+  publicMetadata: { role: string };
 }
 
 const UserList = () => {
@@ -38,6 +39,31 @@ const UserList = () => {
     });
   };
 
+  const addRole = async (userId: string) => {
+    const response = await updateRole(userId);
+    console.log(response);
+    if (response?.success) {
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId
+            ? {
+                ...user,
+                publicMetadata: {
+                  ...user.publicMetadata,
+                  role: response.data.publicMetadata.role, // assume backend returns updated role
+                },
+              }
+            : user
+        )
+      );
+    }
+
+    toast.success("The user role has been updated", {
+      position: "top-right",
+      autoClose: 3000, // Closes after 3 seconds
+    });
+  };
+
   return (
     <div>
       <div className="flex justify-between mb-10">
@@ -56,6 +82,7 @@ const UserList = () => {
               <th className="px-3 py-2 whitespace-nowrap">S.N</th>
               <th className="px-3 py-2 whitespace-nowrap">Name</th>
               <th className="px-3 py-2 whitespace-nowrap">Email</th>
+              <th className="px-3 py-2 whitespace-nowrap">Role</th>
               <th className="px-3 py-2 whitespace-nowrap">Last Active At</th>
               <th className="px-3 py-2 whitespace-nowrap">Created At</th>
               <th className="px-3 py-2 whitespace-nowrap">Action</th>
@@ -86,18 +113,36 @@ const UserList = () => {
                             "No email available"}
                         </td>
                         <td className="px-3 py-2 whitespace-nowrap">
+                          {item.publicMetadata.role as string}
+                        </td>
+                        <td className="px-3 py-2 whitespace-nowrap">
                           {moment(item.lastActiveAt).startOf("hour").fromNow()}
                         </td>
                         <td className="px-3 py-2 whitespace-nowrap">
                           {moment(item.createdAt).startOf("day").fromNow()}
                         </td>
-                        <td className="px-3 py-2 whitespace-nowrap">
-                          <BookMinus
-                            color="red"
-                            size={24}
-                            className="cursor-pointer"
-                            onClick={() => userDelete(item.id)}
-                          />
+                        <td className="px-3 py-2 whitespace-nowrap flex gap-2">
+                          {item.publicMetadata.role !== "admin" ? (
+                            <>
+                              {" "}
+                              <span title="Delete User">
+                                <BookMinus
+                                  color="red"
+                                  size={24}
+                                  className="cursor-pointer"
+                                  onClick={() => userDelete(item.id)}
+                                />
+                              </span>
+                              <span title="Update role">
+                                <Squirrel
+                                  color="green"
+                                  size={24}
+                                  className="cursor-pointer"
+                                  onClick={() => addRole(item.id)}
+                                />
+                              </span>
+                            </>
+                          ) : null}
                         </td>
                       </tr>
                     );

@@ -5,19 +5,10 @@ import { BookMinus, Squirrel } from "lucide-react";
 import { fetchUser, deleteUser, updateRole } from "./_actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-
-interface UserType {
-  id: string;
-  firstName: string | null;
-  lastName: string | null;
-  emailAddresses: { emailAddress: string }[];
-  lastActiveAt: number | null; // Alloupw null
-  createdAt: number;
-  publicMetadata: { role: string };
-}
+import { useSideBar } from "../_context/SideBarContext";
 
 const UserList = () => {
-  const [user, setUsers] = useState<UserType[]>([]);
+  const { user, setUsers } = useSideBar();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   useEffect(() => {

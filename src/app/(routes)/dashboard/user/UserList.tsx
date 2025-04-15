@@ -1,25 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment";
 import { BookMinus, Squirrel } from "lucide-react";
-import { fetchUser, deleteUser, updateRole } from "./_actions";
+import { deleteUser, updateRole } from "./_actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useSideBar } from "../_context/SideBarContext";
+import Image from "next/image";
 
 const UserList = () => {
-  const { user, setUsers } = useSideBar();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user, setUsers, isLoading } = useSideBar();
+  console.log("user", user);
   const router = useRouter();
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchData = async () => {
-      const users = await fetchUser();
-      setUsers(users.data);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
 
   const userDelete = async (userId: string) => {
     deleteUser(userId);
@@ -96,7 +88,14 @@ const UserList = () => {
                         <td className="px-3 py-2 whitespace-nowrap">
                           {index + 1}
                         </td>
-                        <td className="px-3 py-2 whitespace-nowrap">
+                        <td className="px-3 py-2 whitespace-nowrap flex gap-2">
+                          <Image
+                            src={item.imageUrl}
+                            alt="test"
+                            width={30}
+                            height={30}
+                            className="rounded-full"
+                          />{" "}
                           {item.firstName} {item.lastName}
                         </td>
                         <td className="px-3 py-2 whitespace-nowrap">

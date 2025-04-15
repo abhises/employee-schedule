@@ -6,7 +6,9 @@ import {
   ReactNode,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
+import { fetchUser } from "../user/_actions";
 
 interface UserType {
   id: string;
@@ -16,6 +18,7 @@ interface UserType {
   lastActiveAt: number | null; // Alloupw null
   createdAt: number;
   publicMetadata: { role: string };
+  imageUrl: string;
 }
 
 interface SideBarPropsType {
@@ -24,6 +27,7 @@ interface SideBarPropsType {
   isOpen: boolean;
   toggleSidebar: () => void;
   setIsOpen: Dispatch<SetStateAction<boolean>>; // Include setIsOpen
+  isLoading: boolean;
 }
 
 const SideBarContext = createContext<SideBarPropsType | undefined>(undefined);
@@ -31,12 +35,22 @@ const SideBarContext = createContext<SideBarPropsType | undefined>(undefined);
 export const SideBarProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUsers] = useState<UserType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleSidebar = () => setIsOpen((prev) => !prev);
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchData = async () => {
+      const users = await fetchUser();
+      setUsers(users.data);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
 
   return (
     <SideBarContext.Provider
-      value={{ isOpen, toggleSidebar, setIsOpen, user, setUsers }}>
+      value={{ isOpen, toggleSidebar, setIsOpen, user, setUsers, isLoading }}>
       {children}
     </SideBarContext.Provider>
   );

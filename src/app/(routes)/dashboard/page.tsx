@@ -13,10 +13,12 @@ const DashboardPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 m-4 h-40">
         <div className="bg-red-400 rounded-xl h-40">
           <div className="p-4">
-            <span className="text-white text-2xl">Total User</span>
+            <span className="text-white text-2xl">Total Users</span>
           </div>
           <div className="flex justify-center items-center ">
-            <h1 className="text-white text-6xl">{user.length - 1}</h1>
+            {user && user.length > 0 && (
+              <h1 className="text-white text-6xl">{user.length - 1}</h1>
+            )}{" "}
           </div>
         </div>
         <div className="bg-red-400 rounded-xl h-40">hello</div>

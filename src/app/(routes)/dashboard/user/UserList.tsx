@@ -88,7 +88,7 @@ const UserList = () => {
                         <td className="px-3 py-2 whitespace-nowrap">
                           {index + 1}
                         </td>
-                        <td className="px-3 py-2 whitespace-nowrap flex gap-2">
+                        <td className="px-10 py-2 whitespace-nowrap flex gap-2">
                           <Image
                             src={item.imageUrl}
                             alt="test"

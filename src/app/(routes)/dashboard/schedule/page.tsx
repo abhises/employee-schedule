@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import MyCalendar from "./Calendar";
+import MyCalendar from "./_components/Calendar";
 import { useRouter } from "next/navigation";
 import { useSideBar } from "../_context/SideBarContext";
 

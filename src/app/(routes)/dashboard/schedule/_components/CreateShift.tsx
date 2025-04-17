@@ -24,7 +24,9 @@ export default function CreateShiftForm() {
         onChange={(e) => setShift(e.target.value)}
         placeholder="Enter shift"
       />
-      <button type="submit">Create Shift</button>
+      <button type="submit" className="bg-red-500 text-white p-2 rounded-4xl">
+        Create Shift
+      </button>
     </form>
   );
 }

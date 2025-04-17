@@ -2,6 +2,7 @@
 import React from "react";
 import moment from "moment";
 import { useSideBar } from "../../_context/SideBarContext";
+import CreateShiftForm from "../_components/CreateShift";
 
 const CreateSchedule = () => {
   const today = moment();
@@ -15,42 +16,43 @@ const CreateSchedule = () => {
     <div className="m-4">
       <h2 className="text-4xl">Create Schedule </h2>
       <div className="grid grid-cols-12 mt-4 gap-3">
-        <div className="col-span-2 bg-red-500 border-2 rounded-2xl">
-          <div className="flex-col gap-3 p-4">
-            {user.map((users) => (
-              <p
-                className="text-white hover:bg-red-800 
-            cursor-pointer px-4 py-2 rounded-4xl"
-                key={users.firstName}>
-                {users.firstName}
-              </p>
-            ))}
+        <div className="col-span-12 ">
+          <div className="overflow-auto">
+            <table className="table-auto w-full border border-gray-500">
+              <thead>
+                <tr className="bg-gray-500">
+                  <th>Users</th>
+                  {dates.map((date, index) => (
+                    <th
+                      key={index}
+                      className="border px-4 py-3 text-sm text-gray-800 whitespace-nowrap min-w-[120px] text-center">
+                      {date}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {user.map((user, index) => (
+                  <tr
+                    key={index}
+                    className="border px-4 py-3 text-center min-w-[120px]">
+                    <td className="p-4 m-1"> {user.firstName}</td>
+                    {dates.map((_, index) => (
+                      <td
+                        key={index}
+                        className="border px-4 py-3 text-sm text-gray-800 whitespace-nowrap min-w-[120px] text-center">
+                        <input className="p-2 m-1" />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-        <div className="col-span-10 ">
-          <table className="table-auto w-full border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100">
-                {dates.map((date, index) => (
-                  <th
-                    key={index}
-                    className="border px-2 py-1 text-sm text-gray-700 w-fit">
-                    {date}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {dates.map((_, index) => (
-                  <td key={index} className="border px-2 py-1 text-center">
-                    {/* your data here */}-
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      </div>
+      <div>
+        <CreateShiftForm />
       </div>
     </div>
   );

@@ -2,7 +2,6 @@
 import React from "react";
 import moment from "moment";
 import { useSideBar } from "../../_context/SideBarContext";
-import CreateShiftForm from "../_components/CreateShift";
 
 const CreateSchedule = () => {
   const today = moment();
@@ -51,9 +50,7 @@ const CreateSchedule = () => {
           </div>
         </div>
       </div>
-      <div>
-        <CreateShiftForm />
-      </div>
+      <div></div>
     </div>
   );
 };

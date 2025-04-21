@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1744705186845,
-      "tag": "0000_happy_captain_flint",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1744897918432,
-      "tag": "0001_fat_daimon_hellstrom",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1744899376197,
-      "tag": "0002_abandoned_siren",
+      "when": 1745208819779,
+      "tag": "0000_parched_johnny_blaze",
       "breakpoints": true
     }
   ]

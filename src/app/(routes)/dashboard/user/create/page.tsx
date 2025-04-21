@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { createUser } from "../_actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { UserType, useSideBar } from "../../_context/SideBarContext";
 
 const CreateUser = () => {
   const [firstName, setFirstName] = useState("");
@@ -10,8 +11,12 @@ const CreateUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
+  const { user, setUsers } = useSideBar();
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log("user of user", user);
 
   const create = async () => {
     // Reset errors
@@ -49,8 +54,22 @@ const CreateUser = () => {
     try {
       const response = await createUser(formData);
 
-      if (response?.user) {
+      if (response?.success && response.user) {
+        console.log("response of creating user", response);
         setIsLoading(false);
+        const newUser: UserType = {
+          id: response.user.id,
+          firstName: response.user.firstName,
+          lastName: response.user.lastName,
+          emailAddresses: [{ emailAddress: response.user.email }],
+          lastActiveAt: null,
+          createdAt: Date.now(), // assuming you want timestamp format
+          publicMetadata: { role: "member" }, // set appropriate role if needed
+          imageUrl: "",
+        };
+
+        setUsers([...user, newUser]);
+
         router.push("/dashboard/user");
         toast.success("The user has been created", {
           position: "top-right",

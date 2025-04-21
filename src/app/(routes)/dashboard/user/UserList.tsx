@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const UserList = () => {
   const { user, setUsers, isLoading } = useSideBar();
-  console.log("user", user);
+  // console.log("user", user);
   const router = useRouter();
 
   const userDelete = async (userId: string) => {
@@ -90,8 +90,8 @@ const UserList = () => {
                         </td>
                         <td className="px-10 py-2 whitespace-nowrap flex gap-2">
                           <Image
-                            src={item.imageUrl}
-                            alt="test"
+                            src={item.imageUrl || "/vercel.svg"} // replace with your fallback path
+                            alt={item.firstName || "User"} // dynamic or default alt text
                             width={30}
                             height={30}
                             className="rounded-full"

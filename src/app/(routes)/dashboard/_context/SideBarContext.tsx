@@ -10,7 +10,7 @@ import {
 } from "react";
 import { fetchUser } from "../user/_actions";
 
-interface UserType {
+export interface UserType {
   id: string;
   firstName: string | null;
   lastName: string | null;
